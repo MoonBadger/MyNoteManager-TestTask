@@ -1,11 +1,16 @@
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class MainForm extends JFrame {
     private static final String JSON_PATH = "data/retention.json";
+    private static final String DATE_FORMAT = "dd.MM.yyyy hh:mm";
     private JPanel panelMain;
     private JButton okButton;
     private JButton addButton;
@@ -37,11 +42,13 @@ public class MainForm extends JFrame {
 
         manager.load(JSON_PATH);
 
-        Note testNote = new Note("Заголовок", "текст");
-        manager.setCurrentNoteId(0);
-        manager.getNotes().add(testNote);
-        showNote(this);
-
+        if(manager.getNotes().isEmpty()) {
+            Note testNote = new Note("Заголовок", "текст");
+            manager.setCurrentNoteId(0);
+            manager.getNotes().add(testNote);
+        }
+        showNote();
+        updateComboBox();
 
         mainTextArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -54,6 +61,7 @@ public class MainForm extends JFrame {
             }
             @Override
             public void changedUpdate(DocumentEvent e) {}
+
             private void change() {
                 if(mode == Mode.READ) {
                     mode = Mode.EDIT;
@@ -73,12 +81,28 @@ public class MainForm extends JFrame {
         });
     }
 
-    private static void showNote(MainForm mainForm) {
+    private void showNote() {
         Note note = NoteManager.getInstance().getCurrentNote();
         Date date = note.getDatetime();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy hh:mm");
-        mainForm.timeLabel.setText(" ".repeat(5) + formatter.format(date));
-        mainForm.mainTextArea.setText(note.getContent());
-        mainForm.titleTextField.setText(note.getTitle());
+        timeLabel.setText(" ".repeat(5) + dateToString(date));
+        mainTextArea.setText(note.getContent());
+        titleTextField.setText(note.getTitle());
+    }
+
+    private String dateToString(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        return formatter.format(date);
+    }
+
+    private void updateComboBox() {
+        List<Note> list = manager.getNotes();
+        String[] items = new String[list.size()];
+        for (int i = 0; i < items.length; i++) {
+            Note note = list.get(i);
+            items[i] = note.getTitle() +
+                    " ".repeat(3) + "(" +dateToString(note.getDatetime()) + ")";
+            comboBox.addItem(items[i]);
+        }
+
     }
 }
