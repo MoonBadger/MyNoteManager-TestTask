@@ -3,9 +3,9 @@ import java.util.Date;
 public class Note {
     private String content;
     private String title;
-    private Date datetime;
+    private final Date datetime;
 
-    public Note(String title, String content,  Date datetime) {
+    Note(String title, String content,  Date datetime) {
         this.content = content;
         this.title = title;
         this.datetime = datetime;
@@ -43,9 +43,4 @@ public class Note {
                 ", datetime=" + datetime +
                 '}';
     }
-
-//    @Override
-//    public int compareTo(Note note) {
-//        return (int) (this.datetime.getTime() - note.datetime.getTime());
-//    }
 }

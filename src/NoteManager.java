@@ -26,11 +26,15 @@ public class NoteManager {
     }
 
     public Note getCurrentNote() {
-        return notes.get(currentNoteId);
+        return notes.isEmpty() ? null : notes.get(currentNoteId);
     }
 
     public void setCurrentNoteId(int currentNoteId) {
         this.currentNoteId = currentNoteId;
+    }
+
+    public void deleteCurrentNote() {
+        notes.remove(currentNoteId);
     }
 
     public void save(String path) {
