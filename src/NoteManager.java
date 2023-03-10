@@ -35,8 +35,6 @@ public class NoteManager {
 
     public void save(String path) {
         try (FileWriter fw = new FileWriter(path, false)) {
-            File file = new File(path);
-            //file.renameTo(file);
             String jsonString = gson.toJson(instance);
             fw.write(jsonString);
         } catch (Exception ignored) {}

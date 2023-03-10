@@ -43,4 +43,9 @@ public class Note {
                 ", datetime=" + datetime +
                 '}';
     }
+
+//    @Override
+//    public int compareTo(Note note) {
+//        return (int) (this.datetime.getTime() - note.datetime.getTime());
+//    }
 }
