@@ -73,16 +73,17 @@ public class MainForm extends JFrame {
                 }
                 Note note = new Note(title, content);
                 manager.getNotes().add(note);
-                manager.setCurrentNoteId(manager.getNotes().size() - 1);
                 addButton.setEnabled(true);
                 comboBox.setEnabled(true);
-                okButton.setText("ok"); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 manager.save(JSON_PATH);
-                update();
             }
             blockRedactButtons();
             updateComboBox();
+            manager.setCurrentNoteId(manager.getNotes().size() - 1);
+            comboBox.setSelectedIndex(manager.getCurrentNoteId());
+            showNote();
             mode = Mode.READ;
+            blockRedactButtons();
         });
 
         addButton.addActionListener(e -> {
@@ -92,7 +93,6 @@ public class MainForm extends JFrame {
             addButton.setEnabled(false);
             okButton.setEnabled(true);
             comboBox.setEnabled(false);
-            okButton.setText("Добавить"); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             titleTextField.setText(DEFAULT_ADD_TITLE);
             mainTextArea.setText(DEFAULT_ADD_TEXT);
             timeLabel.setText(DEFAULT_ADD_MESSAGE);
@@ -118,17 +118,17 @@ public class MainForm extends JFrame {
         });
 
         deleteButton.addActionListener(e -> {
+            confirmationForm.setVisible(true);
+            if(! confirm) return;
             if(mode == Mode.ADD) {
                 addButton.setEnabled(true);
                 comboBox.setEnabled(true);
                 manager.load(JSON_PATH);
                 showNote();
                 okButton.setEnabled(false);
-                okButton.setText("Ok"); ///!!!!!!!!!!!!!!!!!!!!!!!!!
                 mode = Mode.READ;
             } else {
-                if(manager.getNotes().isEmpty()) {
-                    confirmationForm.setVisible(true);
+                if(! manager.getNotes().isEmpty()) {
                     if(confirm) {
                         manager.setCurrentNoteId(comboBox.getSelectedIndex());
                         manager.deleteCurrentNote();
