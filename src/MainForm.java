@@ -26,6 +26,8 @@ public class MainForm extends JFrame {
             DEFAULT_ADD_MESSAGE = "Создание новой заметки",
             TITLES_NOT_EXISTING_TEXT = "Пока ещё нет ни одной заметки";
 
+    private static final int MAX_LINES_COUNT = 10;
+
     private enum Mode {
         READ,
         EDIT,
@@ -44,7 +46,7 @@ public class MainForm extends JFrame {
         frame.setVisible(true);
         frame.setResizable(false);
         mainTextArea.setWrapStyleWord(true);
-        okButton.setEnabled(false);
+        blockRedactButtons();
 
         manager.load(JSON_PATH);
 
@@ -110,7 +112,7 @@ public class MainForm extends JFrame {
 
         comboBox.addItemListener(e -> {
             int ind = comboBox.getSelectedIndex();
-            if(ind > 0) {
+            if(ind >= 0) {
                 manager.setCurrentNoteId(ind);
                 showNote();
                 blockRedactButtons();

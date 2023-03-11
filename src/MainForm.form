@@ -137,8 +137,10 @@
       </component>
       <component id="54c9d" class="javax.swing.JTextArea" binding="mainTextArea">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <maximum-size width="500" height="600"/>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="500" height="265"/>
+            <preferred-size width="500" height="265"/>
+            <maximum-size width="500" height="265"/>
           </grid>
         </constraints>
         <properties>
