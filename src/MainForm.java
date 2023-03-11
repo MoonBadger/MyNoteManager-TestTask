@@ -26,8 +26,6 @@ public class MainForm extends JFrame {
             DEFAULT_ADD_MESSAGE = "Создание новой заметки",
             TITLES_NOT_EXISTING_TEXT = "Пока ещё нет ни одной заметки";
 
-    private static final int MAX_LINES_COUNT = 10;
-
     private enum Mode {
         READ,
         EDIT,
@@ -129,7 +127,7 @@ public class MainForm extends JFrame {
                 okButton.setText("Ok"); ///!!!!!!!!!!!!!!!!!!!!!!!!!
                 mode = Mode.READ;
             } else {
-                if(manager.getNotes().size() > 0) {
+                if(manager.getNotes().isEmpty()) {
                     confirmationForm.setVisible(true);
                     if(confirm) {
                         manager.setCurrentNoteId(comboBox.getSelectedIndex());
